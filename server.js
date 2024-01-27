@@ -20,7 +20,7 @@ const logger = winston.createLogger({
 });
 
 if(!PORT) {
-    logger.warn('No Port has been found in the configuration. port has been set to 3000.');
+    logger.warn('No Port has been found in the configuration. port has defaulted to 3000.');
     PORT = 3000;
 }
 if(!KEY)  {
@@ -33,15 +33,15 @@ const app = express();
 const translate = new Translate({key: KEY});
 
 app.get('/api/quote/:tag?', async (req, res) => {
-    let tag = req.params.tag;
-    let path = undefined !== tag ? '?tags=' + tag : '';
+    const tag = req.params.tag;
+    const path = undefined !== tag ? '?tags=' + tag : '';
     try {
-        let quoteRequest = (await axios.get('https://api.quotable.io/random' + path)).data;
-        let author = quoteRequest.author;
-        let quote = quoteRequest.content;
+        const quoteRequest = (await axios.get('https://api.quotable.io/random' + path)).data;
+        const author = quoteRequest.author;
+        const quote = quoteRequest.content;
 
-        let translationRequest = await translate.translate(quote, 'de');
-        let translation = translationRequest[0];
+        const translationRequest = await translate.translate(quote, 'de');
+        const translation = translationRequest[0];
 
         res.json({
             "content": translation,
