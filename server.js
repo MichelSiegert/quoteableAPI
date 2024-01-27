@@ -14,8 +14,8 @@ const logger = winston.createLogger({
     ),
     defaultMeta: {service: 'Quote-Translater'},
     transports: [
-        new winston.transports.File({filename: 'error.log', level: 'error'}),
-        new winston.transports.File({filename: 'combined.log'}),
+        new winston.transports.File({filename: './logs/error.log', level: 'error'}),
+        new winston.transports.File({filename: './logs/combined.log'}),
     ],
 });
 
@@ -30,7 +30,7 @@ if(!KEY)  {
 }
 
 const app = express();
-const translate = new Translate({KEY});
+const translate = new Translate({key: KEY});
 
 app.get('/api/quote/:tag?', async (req, res) => {
     let tag = req.params.tag;
